@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.model_selection import KFold
 from sklearn.metrics import mean_squared_error
 
@@ -14,13 +14,14 @@ train = pd.read_csv("data/train.csv")
 train = common_pipe(train)
 
 
-X = train[['full_sq', 'life_sq', 'floor', 'max_floor', 'year', 'month']].values
+X = train[['full_sq', 'life_sq', 'floor', 'max_floor', 'year', 'month',
+           'build_year', 'num_room']].values
 y = train.price_doc.values
 
 #print "iks", X, y
 
 # Model
-reglin = LinearRegression(normalize=True)
+reglin = Lasso(normalize=True)
 
 # Cross-walidacja
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
